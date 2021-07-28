@@ -1,0 +1,103 @@
+.login__grid{
+    display: grid;
+    width: 100%;
+    height: 100vh;
+    grid-template-areas:
+    "img img form"
+    "img img form";
+}
+
+.right__side{
+    grid-area: form;
+    background-color: rgb(170, 214, 170);
+    width: 40vw;
+    display: flex;
+    align-items: center;
+
+}
+
+.welcome__message{
+    color: green;
+}
+
+.login__error{
+    font-family: Arial, sans-serif;
+    display: block;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.login__form{
+    font-family: Arial, sans-serif;
+    position: relative;
+    width: 90%;
+    margin: auto auto;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    color:black;
+    border-radius: 10px;
+    padding: 20px;
+    overflow: auto;
+}
+
+.login__form input{
+    background-color: rgb(255, 246, 223);
+    color: rgb(0, 0, 0);
+}
+.login__form label{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(147, 147, 147);
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+  }
+
+  input[type=password], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+  }
+
+.oops{
+    color: red;
+}
+
+  .login {
+    display: block;
+    background-color: rgb(255, 187, 0);
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: auto;
+    margin-right: auto;
+
+  }
+
+  .login:hover {
+    background-color: rgb(159, 117, 0);
+
+  }
+
+
+.login__image{
+    grid-area: img;
+    align-self: end;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+}
