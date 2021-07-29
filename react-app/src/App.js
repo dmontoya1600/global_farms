@@ -8,6 +8,8 @@ import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
+import Farm from './components/Farm'
+
 
 function App() {
   const [loaded, setLoaded] = useState(false);
@@ -39,6 +41,9 @@ function App() {
         <ProtectedRoute path='/users/:userId' exact={true} >
           <User />
         </ProtectedRoute>
+        <Route path='/farms/:farmId' exact={true} >
+          <Farm />
+        </Route>
         <ProtectedRoute path='/' exact={true} >
           <NavBar />
           <h1>My Home Page</h1>
