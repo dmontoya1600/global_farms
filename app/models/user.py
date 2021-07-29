@@ -10,6 +10,10 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
+    image_url = db.Column(db.String(255))
+
+    farms = db.relationship('Farm', back_populates="users", uselist=False)
+    userWallets = db.relationship('UserWallet', back_populates="users", uselist=False)
 
     @property
     def password(self):
@@ -28,3 +32,10 @@ class User(db.Model, UserMixin):
             'username': self.username,
             'email': self.email
         }
+
+class UserWallet(db.Model):
+    __tablename__ = 'userWallets'
+
+    id = db.Column(db.Integer, primary_key=True)
+    userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    users = db.relationship('User', back_populates='userWallets')

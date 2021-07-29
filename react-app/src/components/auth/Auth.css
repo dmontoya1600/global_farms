@@ -1,4 +1,6 @@
 .login__grid{
+    background: rgb(188,254,255);
+    background: linear-gradient(0deg, rgba(188,254,255,1) 0%, rgba(255,255,255,1) 100%);
     display: grid;
     width: 100%;
     height: 100vh;
@@ -17,7 +19,7 @@
 }
 
 .welcome__message{
-    color: green;
+    color: rgb(0, 0, 0);
 }
 
 .login__error{
