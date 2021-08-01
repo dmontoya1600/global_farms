@@ -39,3 +39,10 @@ class UserWallet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
     users = db.relationship('User', back_populates='userWallets')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'userId': self.userId,
+            'buyingPower': self.buyingPower,
+        }
