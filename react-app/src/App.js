@@ -9,6 +9,7 @@ import UsersList from './components/UsersList';
 import User from './components/User';
 import { authenticate } from './store/session';
 import Farm from './components/Farm'
+import HomePage from './components/HomePage'
 
 
 function App() {
@@ -44,10 +45,10 @@ function App() {
         <Route path='/farms/:farmId' exact={true} >
           <Farm />
         </Route>
-        <ProtectedRoute path='/' exact={true} >
+        <Route path='/' exact={true} >
           <NavBar />
-          <h1>My Home Page</h1>
-        </ProtectedRoute>
+          <HomePage />
+        </Route>
       </Switch>
     </BrowserRouter>
   );

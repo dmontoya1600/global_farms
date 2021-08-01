@@ -11,6 +11,15 @@ transactions = db.Table(
     db.Column("shares", db.Integer, nullable=False)
 )
 
+saved_farms = db.Table(
+    'saved_farms',
+    db.Model.metadata,
+    db.Column("userId", db.Integer, db.ForeignKey(
+        "users.id"), primary_key=True),
+    db.Column("farmId", db.Integer, db.ForeignKey(
+        "farms.id"), primary_key=True),
+)
+
 class Farm(db.Model):
     __tablename__ = 'farms'
 
@@ -21,14 +30,36 @@ class Farm(db.Model):
     averageSharePrice = db.Column(db.Float)
     averageRating = db.Column(db.Numeric(2,1))
     image_url = db.Column(db.String(255))
+    about = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     users = db.relationship("User", back_populates="farms")
     farmWallets = db.relationship('FarmWallet', back_populates='farms', uselist=False)
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'location': self.location,
+            'averageYield': self.averageYield,
+            'averageSharePrice': self.averageSharePrice,
+            'averageRating': self.averageRating,
+            'image_url': self.image_url,
+            'userId': self.userId,
+            'about': self.about,
+        }
 
 class FarmWallet(db.Model):
     __tablename__ = 'farmWallets'
 
     id = db.Column(db.Integer, primary_key=True)
     farmId = db.Column(db.Integer, db.ForeignKey('farms.id'))
+    shares = db.Column(db.Integer)
+
     farms = db.relationship('Farm', back_populates='farmWallets')
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'farmId': self.farmId,
+            'shares': self.shares,
+        }
