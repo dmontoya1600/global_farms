@@ -52,6 +52,17 @@ def createFarm():
 def updateFarm(id):
     s3 = boto3.client('s3')
     farm = Farm.query.get(id)
+    form = FarmForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+
+        farm.name = form.data['name'] if form.data['name'] != 'null' else farm.name
+        farm.location = form.data['location'] if form.data['location'] != 'null' else farm.location
+        farm.about = form.data['about'] if form.data['about'] != 'null' else farm.about
+        farm.averageYield = form.data['averageYield'] if form.data['averageYield'] != 'null' else farm.averageYield
+
+        db.session.commit()
+        return farm.to_dict()
     if request.files:
         file_data = request.files['image']
         s3.upload_fileobj(file_data, 'global-farms-bucket', file_data.filename,
@@ -63,15 +74,6 @@ def updateFarm(id):
         image_url = response["url"] + response["fields"]["key"]
         farm.image_url = image_url
         db.session.commit()
-
-    content = request.json
-    name = content['name']
-    location = content['location']
-    averageYield = content['averageYield']
-
-    farm.name = name or farm.name
-    farm.location = location or farm.location
-    farm.averageYield = averageYield or farm.averageYield
 
     db.session.commit()
     return farm.to_dict()
