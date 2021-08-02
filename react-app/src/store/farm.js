@@ -32,18 +32,24 @@ export const createFarm = (form, image) => async (dispatch) => {
     return data
 }
 
-export const updateFarm = (fieldValue, farmId, image) => async (dispatch) => {
+export const updateFarm = (form, image) => async (dispatch) => {
     const formData = new FormData()
-
+    console.log('THIS IS THE DISPATCH FORM', form)
     if(image) {
         formData.append("image", image)};
     // request will be named: farm__name, farm__yield, farm__location
     // the request will then check if the request exist it will update
-    formData.append(`${fieldValue[1]}`, fieldValue[0])
-    const response = await fetch(`/api/farms/${farmId}`, {
-        method: "POST",
+    formData.append('name', form.name)
+    formData.append('location', form.location)
+    formData.append('averageYield', form.averageYield)
+    formData.append('about', form.about)
+
+    const response = await fetch(`/api/farms/${form.id}`, {
+        method: "PUT",
         body: formData
     });
+
+    const data = response.json()
 }
 
 export default function reducer(state = {}, action) {

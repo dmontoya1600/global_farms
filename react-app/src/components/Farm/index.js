@@ -3,12 +3,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { loadFarm, updateFarm } from '../../store/farm';
 import './Farm.css'
+import EditFarmForm from './EditFarmForm';
 
 function Farm() {
   const farm = useSelector(state => state.farm)
   const { farmId }  = useParams();
   const dispatch = useDispatch();
   let [fieldValue, setFieldValue] = useState(null)
+  let [editFarm, setEditFarm] = useState(false)
 
   useEffect(() => {
     if (!farmId) {
@@ -33,14 +35,19 @@ function editField(fieldValue){
 
 // MAKE SURE TO TELL THE USER HOW TO UPDATE SOMEHOW
 
+function editFarmForm(){
+
+}
+
   return (
     !farm ? <div>Farm does not exist</div> :
     <div className='farm__page'>
+        {editFarm ? <EditFarmForm setEditFarm={setEditFarm} editFarm={editFarm} /> : null}
         <div className='farm__content'>
 
-            {fieldValue?.[1] === 'farm__name' ? editField(fieldValue) :
-                <div value={farm.name} className='farm__name' onClick={(e) => setFieldValue([farm.name, 'farm__name'])}>{farm.name}</div>
-            }
+            
+           <div value={farm.name} className='farm__name' onClick={(e) => setFieldValue([farm.name, 'farm__name'])}>{farm.name}</div>
+
 
             {fieldValue?.[1] === 'farm__yield' ? editField(fieldValue) :
                 <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>{farm.averageYield}</div>
@@ -49,6 +56,7 @@ function editField(fieldValue){
         <div className='farm__order'>
             <div>FORM CONTENT</div>
             <div>Add to Lists</div>
+            <div onClick={() => setEditFarm(true)}>Edit Page</div>
         </div>
     </div>
 
