@@ -30,6 +30,7 @@ function HomePage() {
             <div className='create__farm__button' onClick={() => setActiveForm(true)}>Create Farm</div>
         </div>
         <div className='side__content'>
+            <div className='list__title'>Lists</div>
             <WatchList />
         </div>
     </div>

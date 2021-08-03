@@ -1,25 +1,46 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import './HomePage.css'
 
 function WatchList() {
   const farms = useSelector(state => state.session.farms);
   const dispatch = useDispatch();
+  const [activeList, setActiveList] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
 
   }, []);
 
-
-  return (
-    <div className='watchlist__component'>
-        {farms ? <div className='watchlist__items'>WATCHLIST:
+  function watchlistContent(){
+    if(farms){
+    return (
+        <div className='watchlist__items'>
             {farms.map(farm => (
-                <div className='watchlist__item' key={farm.id}>
+                <div onClick={() => history.push(`/farms/${farm.id}`)}className='watchlist__item' key={farm.id}>
                     {farm.name}
                 </div>
             ))}
-        </div> : <div>Watchlist is Empty</div>}
+        </div>)
+    } else {
+        return (
+            <div className='no__items'>No items in watchlist</div>
+        )
+    }
+  }
+
+  return (
+    <div className='watchlist__component'>
+        <div className='watchlist__tab' onClick={() => setActiveList(!activeList)}>
+            WATCHLIST
+            {!activeList ?
+                <i className='fas fa-angle-down' />
+            :   <i className='fas fa-angle-up' />}
+        </div>
+        {activeList ?
+            watchlistContent()
+        : null}
     </div>
 
   );

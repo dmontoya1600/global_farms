@@ -53,12 +53,14 @@ function App() {
           <User />
         </ProtectedRoute>
         <Route path='/farms/:farmId' exact={true} >
+          <NavBar />
           <Farm />
         </Route>
         <Route path='/' exact={true} >
           <NavBar />
           <HomePage />
         </Route>
+        <div>PAGE NOT FOUND</div>
       </Switch>
     </BrowserRouter>
   );
