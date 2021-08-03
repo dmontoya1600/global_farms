@@ -2,42 +2,48 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { loadFarm, updateFarm } from '../../store/farm';
+import { saveFarm } from '../../store/session';
 import './Farm.css'
 import EditFarmForm from './EditFarmForm';
+import OrderForm from './OrderForm';
 
 function Farm() {
+  const user = useSelector(state => state.session.user)
+  const farms = useSelector(state => state.session.farms)
   const farm = useSelector(state => state.farm)
   const { farmId }  = useParams();
   const dispatch = useDispatch();
   let [fieldValue, setFieldValue] = useState(null)
   let [editFarm, setEditFarm] = useState(false)
+  let [savedFarm, setSavedFarm] = useState(false)
 
   useEffect(() => {
     if (!farmId) {
       return;
     }
     (async () => {
-        dispatch(loadFarm(farmId))
+       await dispatch(loadFarm(farmId))
     })();
   }, [farmId]);
+
+  useEffect(() => {
+      (async () => {
+        if (farms) {
+            farms.forEach(key => {
+                if (key.id === farm.id) setSavedFarm(true)
+            })
+        }
+      })();
+  }, [farms])
 
 async function handleFieldUpdate(){
     await dispatch(updateFarm(fieldValue));
 }
 
-function editField(fieldValue){
-    console.log('THIS IS THE EDIT FIELD VALUE', fieldValue[0])
-    return (<form className='editForm' onSubmit={() => handleFieldUpdate()} >
-                <input className={fieldValue[1]} type='text' value={fieldValue[0]} onChange={(e) => {setFieldValue([e.target.value, fieldValue[1]])}} />
-                <button type='submit' hidden/>
-            </form>)
+async function addToList(){
+    await dispatch(saveFarm(farm.id, user.id))
 }
 
-// MAKE SURE TO TELL THE USER HOW TO UPDATE SOMEHOW
-
-function editFarmForm(){
-
-}
 
   return (
     !farm ? <div>Farm does not exist</div> :
@@ -45,18 +51,19 @@ function editFarmForm(){
         {editFarm ? <EditFarmForm setEditFarm={setEditFarm} editFarm={editFarm} /> : null}
         <div className='farm__content'>
 
-            
+
+           <div value={farm.name} className='farm__name'>{farm.name}</div>
+
            <div value={farm.name} className='farm__name' onClick={(e) => setFieldValue([farm.name, 'farm__name'])}>{farm.name}</div>
 
 
-            {fieldValue?.[1] === 'farm__yield' ? editField(fieldValue) :
-                <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>{farm.averageYield}</div>
-            }
+            <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>{farm.averageYield}</div>
+
         </div>
         <div className='farm__order'>
-            <div>FORM CONTENT</div>
-            <div>Add to Lists</div>
-            <div onClick={() => setEditFarm(true)}>Edit Page</div>
+            <OrderForm />
+            {!savedFarm ? <div onClick={() => addToList()}>Add to Lists</div>: null}
+            {user.id === farm.userId ? <div onClick={() => setEditFarm(true)}>Edit Page</div> : null}
         </div>
     </div>
 

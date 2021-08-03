@@ -1,9 +1,11 @@
-from flask import Blueprint, jsonify, request, session
-from app.models import db, Farm
+from flask import Blueprint, jsonify, request, session, current_app
+from app.models import db, Farm, User
 from app.forms import FarmForm
 import logging
 import boto3
 from botocore.exceptions import ClientError
+from sqlalchemy import create_engine, MetaData
+from sqlalchemy.orm import sessionmaker
 
 farm_routes = Blueprint('farms', __name__)
 
@@ -46,6 +48,58 @@ def createFarm():
         return farm.to_dict()
 
     return 401
+
+
+@farm_routes.route('/<int:id>', methods=['DELETE'])
+def deleteFarm(id):
+    farm = Farm.query.get(id)
+    form = FarmForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        newFarm = farm.to_dict()
+        print('THIS IS THE NEW FARM', newFarm)
+        if newFarm['userId'] == form.data['userId']:
+            db.session.delete(farm)
+            db.session.commit()
+            return {'message': 'deleted succesfully'}
+        return {'message': 'user not authorized'}
+    return {'message': 'validation failed'}
+
+
+@farm_routes.route('/<int:id>/save')
+def getSavedFarms(id):
+    form = FarmForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate():
+
+        db_uri = current_app.config['SQLALCHEMY_DATABASE_URI']
+        engine = create_engine(db_uri)
+        metadata = MetaData(engine)
+        metadata.reflect()
+        table = metadata.tables['saved_farms']
+        Session = sessionmaker(bind=engine)
+        session = Session()
+        allSaved = session.query(table).filter_by(userId = id).all()
+        allSavedFarms = []
+        for saved in allSaved:
+            currentFarm = Farm.query.get(saved.farmId)
+            allSavedFarms.append(currentFarm.to_dict())
+
+        return jsonify({'saved_farms': allSavedFarms})
+    return {'message': 'request did not validate'}
+
+@farm_routes.route('/<int:id>/save', methods=['POST'])
+def saveFarm(id):
+    farm = Farm.query.get(id)
+    form = FarmForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate_on_submit():
+        userId = form.data['userId']
+        user = User.query.get(userId)
+        user.farms.append(farm)
+        db.session.commit()
+        return farm.to_dict()
+    return {'message': 'order did not validate'}
 
 
 @farm_routes.route('/<int:id>', methods=['PUT'])

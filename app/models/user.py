@@ -12,7 +12,7 @@ class User(db.Model, UserMixin):
     hashed_password = db.Column(db.String(255), nullable=False)
     image_url = db.Column(db.String(255))
 
-    farms = db.relationship('Farm', back_populates="users", uselist=False)
+    farms = db.relationship('Farm', back_populates="users", secondary='saved_farms')
     userWallets = db.relationship('UserWallet', back_populates="users", uselist=False)
 
     @property

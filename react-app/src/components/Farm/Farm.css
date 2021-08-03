@@ -36,6 +36,29 @@
     outline: none;
 }
 
-.editForm{
-    outline: none;
+
+.edit__farm__page {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 50%;
+    margin: 0 auto;
+    height: auto;
+    max-height: 70vh;
+    margin-top: calc(100vh - 85vh - 20px);
+    background-color: rgba(69, 69, 69, 0.683);
+    color:rgb(255, 255, 255);
+    border-radius: 10px;
+    padding: 20px;
+    overflow: auto;
+}
+
+.background__shadow{
+    position: fixed;
+    background: #0000007d;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index:5;
 }
