@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Redirect } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import image from './tractor-chicken.png'
+import logo from './global_farms_logo.png'
 import './Auth.css'
 
 
@@ -50,6 +51,8 @@ const SignUpForm = () => {
   return (
     <div className='login__grid'>
       <img src={image} className='login__image' />
+      <img src={logo} className='logo__image' />
+
       <div className='right__side'>
         <form className='login__form' onSubmit={onSignUp}>
           <div>

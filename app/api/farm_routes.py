@@ -88,6 +88,21 @@ def getSavedFarms(id):
         return jsonify({'saved_farms': allSavedFarms})
     return {'message': 'request did not validate'}
 
+@farm_routes.route('/<int:id>/save', methods=['DELETE'])
+def deleteSave(id):
+    form = FarmForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+    if form.validate():
+        userId = form.data['userId']
+        farm = Farm.query.get(id)
+        user = User.query.get(userId)
+        user.farms.remove(farm)
+        db.session.commit()
+        return {'message': 'removed from list succesfully'}
+
+    return {'message': 'request did not validate'}
+
+
 @farm_routes.route('/<int:id>/save', methods=['POST'])
 def saveFarm(id):
     farm = Farm.query.get(id)

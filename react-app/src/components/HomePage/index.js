@@ -25,9 +25,13 @@ function HomePage() {
 
   return (
     <div className='home__page'>
-        {activeForm ? createFarmForm() : null }
-        <div className='create__farm__button' onClick={() => setActiveForm(true)}>Create Farm</div>
-        <WatchList />
+        <div className='main__content'>MAIN CONTENT
+            {activeForm ? createFarmForm() : null }
+            <div className='create__farm__button' onClick={() => setActiveForm(true)}>Create Farm</div>
+        </div>
+        <div className='side__content'>
+            <WatchList />
+        </div>
     </div>
 
   );

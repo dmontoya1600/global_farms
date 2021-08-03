@@ -3,6 +3,7 @@ const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const ADD_FARM ='session/user/ADD_FARM';
 const LOAD_FARMS = 'session/user/LOAD_FARMS';
+const REMOVE_SAVE = 'session/user/REMOVE_SAVE'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -21,6 +22,11 @@ const addFarm = (farm) => ({
 const loadFarms = (farms) => ({
   type: LOAD_FARMS,
   payload: farms
+})
+
+const deleteSave = (id) => ({
+  type: REMOVE_SAVE,
+  payload: id
 })
 
 const initialState = { user: null };
@@ -122,6 +128,24 @@ export const saveFarm = (farmId, userId) => async(dispatch) => {
   const data = await response.json()
 
   dispatch(addFarm(data))
+}
+
+export const removeSave = (farmId, userId) => async(dispatch) => {
+  const formdata = new FormData()
+
+  if(userId) formdata.append('userId', userId)
+
+
+  const response = await fetch(`/api/farms/${farmId}/save`, {
+    method: 'DELETE',
+    body: formdata
+  })
+
+  const data = await response.json()
+
+  console.log('DELETE RES', data)
+
+  dispatch(deleteSave(farmId))
 
 
 }
@@ -149,6 +173,11 @@ export default function reducer(state = initialState, action) {
     case LOAD_FARMS:
       return {
         ...state, farms: action.payload
+      }
+    case REMOVE_SAVE:
+      const newFarms = state.farms.filter(farm => farm.id !== action.payload)
+      return {
+        ...state, farms: newFarms
       }
     default:
       return state;

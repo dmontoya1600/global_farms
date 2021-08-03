@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { loadFarm, updateFarm } from '../../store/farm';
-import { saveFarm } from '../../store/session';
+import { saveFarm, removeSave } from '../../store/session';
 import './Farm.css'
 import EditFarmForm from './EditFarmForm';
 import OrderForm from './OrderForm';
@@ -27,14 +27,17 @@ function Farm() {
   }, [farmId]);
 
   useEffect(() => {
-      (async () => {
-        if (farms) {
-            farms.forEach(key => {
-                if (key.id === farm.id) setSavedFarm(true)
-            })
-        }
-      })();
-  }, [farms])
+    if (farms) {
+        let checkForTrue = 0
+        farms.forEach(key => {
+            if (key.id === farm.id) {
+                setSavedFarm(true)
+                checkForTrue++
+            }
+        })
+        if (checkForTrue === 0) setSavedFarm(false)
+    }
+  }, [farms?.length])
 
 async function handleFieldUpdate(){
     await dispatch(updateFarm(fieldValue));
@@ -44,6 +47,9 @@ async function addToList(){
     await dispatch(saveFarm(farm.id, user.id))
 }
 
+async function removeFromList(){
+    await dispatch(removeSave(farm.id, user.id))
+}
 
   return (
     !farm ? <div>Farm does not exist</div> :
@@ -54,15 +60,12 @@ async function addToList(){
 
            <div value={farm.name} className='farm__name'>{farm.name}</div>
 
-           <div value={farm.name} className='farm__name' onClick={(e) => setFieldValue([farm.name, 'farm__name'])}>{farm.name}</div>
-
-
             <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>{farm.averageYield}</div>
 
         </div>
         <div className='farm__order'>
             <OrderForm />
-            {!savedFarm ? <div onClick={() => addToList()}>Add to Lists</div>: null}
+            {!savedFarm ? <div onClick={() => addToList()}>Add to Watchlist</div>: <div onClick={() => removeFromList()}>Remove from Watchlist</div>}
             {user.id === farm.userId ? <div onClick={() => setEditFarm(true)}>Edit Page</div> : null}
         </div>
     </div>
