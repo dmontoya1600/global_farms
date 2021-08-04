@@ -32,6 +32,19 @@ export const createFarm = (form, image) => async (dispatch) => {
     return data
 }
 
+export const deleteFarm = (farmId, userId) => async (dispatch) => {
+    const formData = new FormData()
+
+    if(userId) formData.append('userId', userId)
+    const response = await fetch(`/api/farms/${farmId}`, {
+        method: 'DELETE',
+        body: formData,
+    })
+    const data = await response.json()
+    console.log('THIS IS THE DELETE RES', data)
+
+}
+
 export const updateFarm = (form, image) => async (dispatch) => {
     const formData = new FormData()
     console.log('THIS IS THE DISPATCH FORM', form)
@@ -49,7 +62,9 @@ export const updateFarm = (form, image) => async (dispatch) => {
         body: formData
     });
 
-    const data = response.json()
+    const data = await response.json()
+    dispatch(setFarm(data))
+
 }
 
 export default function reducer(state = {}, action) {

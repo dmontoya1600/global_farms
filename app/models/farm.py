@@ -33,7 +33,7 @@ class Farm(db.Model):
     about = db.Column(db.Text)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    users = db.relationship("User", back_populates="farms")
+    users = db.relationship("User", secondary=saved_farms, back_populates="farms")
     farmWallets = db.relationship('FarmWallet', back_populates='farms', uselist=False)
     def to_dict(self):
         return {

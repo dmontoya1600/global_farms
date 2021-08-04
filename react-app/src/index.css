@@ -2,3 +2,39 @@
 body{
     margin: 0px;
 }
+
+
+.navbar{
+    display: grid;
+    grid-template: 50px / 20px 40px 1fr 400px 2fr 70px 70px 20px;
+    grid-template-areas:
+    '. logo . search . portfolio account .';
+    width: 100%;
+
+}
+
+.navbar__logo{
+    width: 100%;
+    height: 100%;
+}
+
+.navbar__logo__container{
+    grid-area: logo;
+    width: 100%;
+    height: 60%;
+}
+
+.navbar__search__container{
+    grid-area: search;
+    height: 60%;
+    background-color: greenyellow;
+}
+
+
+.navbar__portfolio__container{
+    grid-area: portfolio;
+}
+
+.navbar__account__container{
+    grid-area: account;
+}
