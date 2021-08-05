@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, session, request
-from app.models import User, db
+from app.models import User, db, UserWallet
 from app.forms import LoginForm
 from app.forms import SignUpForm
 from flask_login import current_user, login_user, logout_user, login_required
@@ -17,6 +17,15 @@ def validation_errors_to_error_messages(validation_errors):
             errorMessages.append(f'{field} : {error}')
     return errorMessages
 
+def createUserWallet(id):
+    wallet = UserWallet(
+        userId = id,
+        buyingPower = 0.00
+    )
+    print('WALLET WORKED', wallet)
+    db.session.add(wallet)
+    db.session.commit()
+
 
 @auth_routes.route('/')
 def authenticate():
@@ -24,6 +33,8 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
+        print('CURRENT USER: ',current_user.id )
+
         return current_user.to_dict()
     return {'errors': ['Unauthorized']}
 
@@ -70,6 +81,9 @@ def sign_up():
         db.session.add(user)
         db.session.commit()
         login_user(user)
+        newUser = User.query.filter(User.email == form.data['email']).first()
+
+        createUserWallet(newUser.id)
         return user.to_dict()
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
 

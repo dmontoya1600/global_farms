@@ -56,11 +56,15 @@ async function removeFromList(){
     <div className='farm__page'>
         {editFarm ? <EditFarmForm setEditFarm={setEditFarm} editFarm={editFarm} /> : null}
         <div className='farm__content'>
+            <div value={farm.name} className='farm__name'>{farm.name}</div>
+            <div className='overlay__image'></div>
+            <img className='farm__image' src={farm.image_url} />
 
+            <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>Average yield: {farm.averageYield * 100}%</div>
 
-           <div value={farm.name} className='farm__name'>{farm.name}</div>
-
-            <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>{farm.averageYield}</div>
+            <div className='farm__about__label'>About</div>
+            {farm.about ? <div className='farm__about'>{farm.about}</div>
+            : <div className='farm__no__about'>Farm has no biography yet.</div>}
 
         </div>
         <div className='farm__order'>

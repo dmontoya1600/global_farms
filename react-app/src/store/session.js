@@ -1,9 +1,10 @@
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
-const ADD_FARM ='session/user/ADD_FARM';
-const LOAD_FARMS = 'session/user/LOAD_FARMS';
-const REMOVE_SAVE = 'session/user/REMOVE_SAVE'
+const ADD_FARM ='session/farms/ADD_FARM';
+const LOAD_FARMS = 'session/farms/LOAD_FARMS';
+const REMOVE_SAVE = 'session/farms/REMOVE_SAVE'
+const  LOAD_WALLET  = 'session/wallet/LOAD_WALLET'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -29,6 +30,10 @@ const deleteSave = (id) => ({
   payload: id
 })
 
+const loadWallet = (wallet) =>({
+  type: LOAD_WALLET,
+  payload: wallet
+})
 const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
@@ -160,6 +165,13 @@ export const getSavedFarms = (userId) => async(dispatch) => {
 
 }
 
+export const getWallet = (userId) => async(dispatch) => {
+  const response = await fetch(`/api/users/${userId}/wallet`)
+  const data = await response.json()
+
+  dispatch(loadWallet(data))
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
@@ -178,6 +190,10 @@ export default function reducer(state = initialState, action) {
       const newFarms = state.farms.filter(farm => farm.id !== action.payload)
       return {
         ...state, farms: newFarms
+      }
+    case LOAD_WALLET:
+      return {
+        ...state, wallet: action.payload
       }
     default:
       return state;

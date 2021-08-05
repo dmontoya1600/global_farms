@@ -54,6 +54,7 @@ class FarmWallet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     farmId = db.Column(db.Integer, db.ForeignKey('farms.id'))
     shares = db.Column(db.Integer)
+    buyingPower = db.Column(db.Float)
 
     farms = db.relationship('Farm', back_populates='farmWallets')
 

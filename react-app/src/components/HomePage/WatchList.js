@@ -6,7 +6,7 @@ import './HomePage.css'
 function WatchList() {
   const farms = useSelector(state => state.session.farms);
   const dispatch = useDispatch();
-  const [activeList, setActiveList] = useState(false)
+  const [activeList, setActiveList] = useState(true)
   const history = useHistory()
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function WatchList() {
   }, []);
 
   function watchlistContent(){
-    if(farms){
+    if(farms?.length > 0){
     return (
         <div className='watchlist__items'>
             {farms.map(farm => (

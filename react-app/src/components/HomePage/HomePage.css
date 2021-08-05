@@ -45,7 +45,21 @@ i{
     color: rgb(103, 161, 76);
 }
 
+.watchlist__item{
+    color: rgb(48, 83, 22);
+}
 
 .watchlist__item:hover{
     background-color: rgb(229, 229, 229);
+}
+
+.no__items{
+    color: rgb(161, 161, 161);
+}
+
+.slide__show__box{
+    display: grid;
+    width: 90%;
+    border: 1px solid black;
+    margin-left: 25px;
 }
