@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createFarm } from '../../store/farm';
 import './HomePage.css'
 import { formContext } from './Context';
@@ -12,12 +12,14 @@ function HomePage() {
   const user = useSelector(state => state.session.user)
   const wallet = useSelector(state => state.session.wallet)
   const dispatch = useDispatch();
-
+  const history = useHistory()
   useEffect(() => {
 
   }, []);
 
-
+  if(!user){
+      history.push('/login')
+  }
 
   return (
     <div className='home__page'>

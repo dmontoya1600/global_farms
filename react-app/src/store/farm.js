@@ -16,20 +16,24 @@ export const createFarm = (form, image) => async (dispatch) => {
     const formData = new FormData()
 
     if(image) {
-        formData.append("image", image)};
+    formData.append("image", image)};
     formData.append('name', form.name);
     formData.append('location', form.location);
     formData.append('averageYield', form.averageYield);
     formData.append('about', form.about);
     formData.append('userId', form.userId);
+    formData.append('stake', form.stake)
+    formData.append('dilution', form.dilution)
+    formData.append('price', form.price)
 
-    const response = await fetch(`/api/farms/`, {
-        method: "POST",
-        body: formData,
-    });
+    console.log('FORMDATA', formData)
+    // const response = await fetch(`/api/farms/`, {
+    //     method: "POST",
+    //     body: formData,
+    // });
 
-    const data = response.json()
-    return data
+    // const data = response.json()
+    // return data
 }
 
 export const deleteFarm = (farmId, userId) => async (dispatch) => {

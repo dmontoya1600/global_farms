@@ -14,6 +14,9 @@ class User(db.Model, UserMixin):
 
     farms = db.relationship('Farm', back_populates="users", secondary='saved_farms')
     userWallets = db.relationship('UserWallet', back_populates="users", uselist=False)
+    transactions = db.relationship('Transaction', back_populates='users')
+
+
 
     @property
     def password(self):

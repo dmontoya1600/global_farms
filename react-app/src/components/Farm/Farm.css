@@ -96,3 +96,79 @@
     font-size: 15px;
     color: rgb(44, 44, 44);
 }
+
+.createFarm__page{
+    background-color: rgb(221, 221, 221);
+    display: grid;
+    grid-template: 50px 1fr 50px / 1fr 700px 1fr;
+    grid-template-areas:
+    ' . . . '
+    ' . create . '
+    ' . . . ';
+    height: 100%;
+}
+
+.edit_form{
+    grid-area: create;
+    font-family: Arial, sans-serif;
+    position: relative;
+    margin: auto auto;
+    background-color: rgb(255, 255, 255);
+    color:black;
+    border-radius: 10px;
+    padding: 40px;
+}
+
+
+.edit_form input{
+    background-color: rgb(255, 246, 223);
+    color: rgb(0, 0, 0);
+}
+.edit_form label{
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(147, 147, 147);
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+  }
+
+.form__title{
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+  input[type=number], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(147, 147, 147);
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+  }
+
+  .edit_form textarea{
+    background-color: rgb(255, 246, 223);
+    color: rgb(0, 0, 0);
+}
+
+
+  input[type=password], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical
+  }

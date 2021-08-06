@@ -10,6 +10,7 @@ import User from './components/User';
 import { authenticate, getSavedFarms, getWallet } from './store/session';
 import Farm from './components/Farm'
 import HomePage from './components/HomePage'
+import CreateFarm from './components/Farm/CreateFarm';
 
 
 function App() {
@@ -60,6 +61,10 @@ function App() {
         <Route path='/' exact={true} >
           <NavBar />
           <HomePage />
+        </Route>
+        <Route path='/create-farm' >
+          <NavBar />
+          <CreateFarm />
         </Route>
         <div>PAGE NOT FOUND</div>
       </Switch>

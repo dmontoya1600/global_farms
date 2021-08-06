@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request, session, current_app
-from app.models import db, Farm, User
+from app.models import db, Farm, User, FarmWallet
 from app.forms import FarmForm
 import logging
 import boto3
@@ -19,6 +19,9 @@ def validation_errors_to_error_messages(validation_errors):
         for error in validation_errors[field]:
             errorMessages.append(f'{field} : {error}')
     return errorMessages
+
+def getAvailableShares(totalShares, percentage):
+    return totalShares * percentage
 
 @farm_routes.route('/')
 def farms():
@@ -41,10 +44,32 @@ def createFarm():
             location = form.data['location'],
             about = form.data['about'],
             averageYield = form.data['averageYield'],
-
         )
+
+
         db.session.add(farm)
         db.session.commit()
+        farmId = Farm.query.filter(Farm.name == form.data['name']).first().id
+
+        market_share = getAvailableShares(form.data['dilution'])
+
+        farmOwnerShares = form.data['dilution'] - market_share
+
+        i = 0
+        farmOwner = User.query.get(form.data['userId'])
+        while i < farmOwnerShares:
+            
+            i += 1
+
+        wallet = FarmWallet(
+            farmId = farmId,
+            buyingPower = 0.0,
+            shares = market_share
+        )
+
+        db.session.add(wallet)
+        db.session.commit()
+
         return farm.to_dict()
 
     return 401

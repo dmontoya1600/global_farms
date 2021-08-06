@@ -12,26 +12,18 @@ const Account = () => {
 const history = useHistory()
 const user = useSelector(state => state.session.user)
 const wallet = useSelector(state => state.session.wallet)
-let [ activeForm, setActiveForm ] = useState(false)
-
-function createFarmForm(){
-    return <formContext.Provider value={[activeForm, setActiveForm]}>
-                    <CreateFarm />
-            </formContext.Provider>
-}
 
   return (
     <div className='account__page'>
         <div className='account__header'>
-            <div className='account__user'>{user.username}</div>
+            <div className='account__user'>{user?.username}</div>
             <div className='account__value'>$EXAMPLE</div>
-            <div className='account__buyingpower'>${wallet.buyingPower}</div>
+            <div className='account__buyingpower'>${wallet?.buyingPower}</div>
             <div className='buyingPower__label'>Buying Power</div>
             <div className='value__label'>Portfolio Value</div>
         </div>
         <div className='account__content'>
-            <div className='farm__tab' onClick={() => setActiveForm(true)}>Create Farm</div>
-            {activeForm ? createFarmForm() : null }
+            <div className='farm__tab' onClick={() => history.push('/create-farm')}>Create Farm</div>
             <div className='profile__tab'>Profile</div>
             <LogoutButton />
         </div>
