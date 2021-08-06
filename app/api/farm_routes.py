@@ -1,5 +1,7 @@
+from app.models.farm import Transaction
+import math
 from flask import Blueprint, jsonify, request, session, current_app
-from app.models import db, Farm, User
+from app.models import db, Farm, User, FarmWallet, Transaction
 from app.forms import FarmForm
 import logging
 import boto3
@@ -19,6 +21,9 @@ def validation_errors_to_error_messages(validation_errors):
         for error in validation_errors[field]:
             errorMessages.append(f'{field} : {error}')
     return errorMessages
+
+def getAvailableShares(totalShares, percentage):
+    return totalShares * percentage
 
 @farm_routes.route('/')
 def farms():
@@ -41,10 +46,40 @@ def createFarm():
             location = form.data['location'],
             about = form.data['about'],
             averageYield = form.data['averageYield'],
-
         )
+
+
         db.session.add(farm)
         db.session.commit()
+
+        currentFarm = Farm.query.filter(Farm.name == form.data['name'], Farm.userId == form.data['userId']).first()
+        farmId = currentFarm.id
+
+        market_share = math.floor(getAvailableShares(form.data['dilution'], form.data['stake']))
+
+        farmOwnerShares = form.data['dilution'] - market_share
+
+        print('TESTING THE VALUES', form.data['dilution'], market_share, farmOwnerShares, form.data['price'])
+
+        farmOwner = User.query.get(form.data['userId'])
+
+        transaction = Transaction(usdAmount= (form.data['price'] * math.floor(farmOwnerShares)), shares=math.floor(farmOwnerShares))
+        transaction.farms = currentFarm
+        transaction.users = farmOwner
+
+
+
+        wallet = FarmWallet(
+            farmId = farmId,
+            buyingPower = 0.0,
+            shares = market_share
+        )
+
+        print('THIS IS THE WALLET', wallet.to_dict())
+        db.session.add(transaction)
+        db.session.add(wallet)
+        db.session.commit()
+
         return farm.to_dict()
 
     return 401

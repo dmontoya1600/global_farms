@@ -1,6 +1,7 @@
+from app.models.user import UserWallet
 from flask import Blueprint, jsonify
 from flask_login import login_required
-from app.models import User
+from app.models import User, UserWallet
 
 user_routes = Blueprint('users', __name__)
 
@@ -18,3 +19,8 @@ def user(id):
     user = User.query.get(id)
     return user.to_dict()
 
+@user_routes.route('/<int:id>/wallet')
+@login_required
+def userWallet(id):
+    wallet = UserWallet.query.filter(UserWallet.userId == id).first()
+    return wallet.to_dict()

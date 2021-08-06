@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { createFarm } from '../../store/farm';
 import './HomePage.css'
 import { formContext } from './Context';
@@ -9,25 +9,28 @@ import WatchList from './WatchList';
 
 function HomePage() {
   const farm = useSelector(state => state.farm);
-  const { farmId }  = useParams();
-  let [ activeForm, setActiveForm ] = useState(false)
+  const user = useSelector(state => state.session.user)
+  const wallet = useSelector(state => state.session.wallet)
   const dispatch = useDispatch();
-
+  const history = useHistory()
   useEffect(() => {
 
   }, []);
 
-    function createFarmForm(){
-        return <formContext.Provider value={[activeForm, setActiveForm]}>
-                        <CreateFarm />
-                </formContext.Provider>
-    }
+  if(!user){
+      history.push('/login')
+  }
 
   return (
     <div className='home__page'>
-        <div className='main__content'>MAIN CONTENT
-            {activeForm ? createFarmForm() : null }
-            <div className='create__farm__button' onClick={() => setActiveForm(true)}>Create Farm</div>
+        <div className='main__content'>
+            <div className='main__buying__power'>${wallet?.buyingPower}</div>
+            <div className='wallet__content'>
+                <div className='slide__show__box'>
+                    <div className='percantage__owned'>27%</div>
+                    <div className='value__owned'>$3,456</div>
+                </div>
+            </div>
         </div>
         <div className='side__content'>
             <div className='list__title'>Lists</div>

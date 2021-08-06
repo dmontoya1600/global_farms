@@ -14,6 +14,9 @@ class User(db.Model, UserMixin):
 
     farms = db.relationship('Farm', back_populates="users", secondary='saved_farms')
     userWallets = db.relationship('UserWallet', back_populates="users", uselist=False)
+    transactions = db.relationship('Transaction', back_populates='users')
+
+
 
     @property
     def password(self):
@@ -38,6 +41,7 @@ class UserWallet(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey('users.id'))
+    buyingPower = db.Column(db.Float)
     users = db.relationship('User', back_populates='userWallets')
 
     def to_dict(self):

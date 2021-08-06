@@ -7,9 +7,10 @@ import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
-import { authenticate, getSavedFarms } from './store/session';
+import { authenticate, getSavedFarms, getWallet } from './store/session';
 import Farm from './components/Farm'
 import HomePage from './components/HomePage'
+import CreateFarm from './components/Farm/CreateFarm';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
   useEffect(() => {
     (async () => {
       if(user){
+        await dispatch(getWallet(user.id))
         await dispatch(getSavedFarms(user.id))
       }
     })();
@@ -59,6 +61,10 @@ function App() {
         <Route path='/' exact={true} >
           <NavBar />
           <HomePage />
+        </Route>
+        <Route path='/create-farm' >
+          <NavBar />
+          <CreateFarm />
         </Route>
         <div>PAGE NOT FOUND</div>
       </Switch>

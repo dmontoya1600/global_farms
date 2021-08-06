@@ -1,16 +1,19 @@
-
-import React from 'react';
+import React, { useState } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
+import Account from './Account';
 
-import logo from './favicon.ico'
+import logo from './auth/logo.ico'
 
 
 const NavBar = () => {
-const history = useHistory()
+  const history = useHistory()
+  let [accountActive, setAccountActive] = useState(false)
   function clickIcon(){
     history.push('/')
   }
+
+
 
   return (
     <nav className='navbar'>
@@ -26,8 +29,10 @@ const history = useHistory()
           </NavLink>
         </div>
         <div className='navbar__account__container'>
-          <LogoutButton />
+          <div className='navbar__account__tab' onClick={() => setAccountActive(!accountActive)}>Account</div>
         </div>
+        {accountActive ? <Account />
+          : null}
     </nav>
   );
 }
