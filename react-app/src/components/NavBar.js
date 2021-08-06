@@ -3,7 +3,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
 import Account from './Account';
 
-import logo from './favicon.ico'
+import logo from './auth/logo.ico'
 
 
 const NavBar = () => {

@@ -12,7 +12,7 @@ function CreateFarm() {
   let [averageYield, setAverageYield] = useState(null);
   let [bio, setBio] = useState(null);
   let [stake, setStake] = useState(0.60)
-  let [dilution, setDilution] = useState(5000)
+  let [dilution, setDilution] = useState(1000)
   let [price, setPrice] = useState(0.00)
   const history = useHistory();
 
@@ -32,9 +32,8 @@ function CreateFarm() {
             dilution: dilution,
             price: Number(price),
         }
-        await dispatch(createFarm(form))
-        // let res = await dispatch(createFarm(form))
-        // history.push(`/farms/${res.id}`)
+        let res = await dispatch(createFarm(form))
+        history.push(`/farms/${res.id}`)
     }
 
   return (
@@ -59,7 +58,7 @@ function CreateFarm() {
                 </label>
 
                 <label>Choose Dilution
-                <select required={true} onChange={(e) => setDilution(e.target.value)}>
+                <select required onChange={(e) => setDilution(e.target.value)}>
                         <option value={1000}>Low Dilution: 1,000 Shares</option>
                         <option value={10000}>Medium Dilution: 10,000 Shares</option>
                         <option value={100000}>High Dilution: 100,000 Shares</option>

@@ -5,8 +5,8 @@ class Transaction(db.Model):
     __tablename__ = 'transactions'
     userId = db.Column(db.ForeignKey('users.id'), primary_key=True)
     farmId = db.Column(db.ForeignKey('farms.id'), primary_key=True)
-    usdAmount = db.Column(db.Float, nullable=False)
-    shares = db.Column(db.Integer, nullable=False)
+    usdAmount = db.Column(db.Float)
+    shares = db.Column(db.Integer)
     farms = db.relationship('Farm', back_populates='transactions')
     users = db.relationship('User', back_populates='transactions')
 

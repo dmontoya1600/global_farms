@@ -1,7 +1,7 @@
 from flask.cli import AppGroup
 from .users import seed_users, undo_users
 from .farms import seed_farms, undo_farms
-from .wallets import seed_userWallets, undo_userWallets
+from .wallets import seed_userWallets, undo_userWallets, seed_farmWallets, undo_farmWallets
 
 # Creates a seed group to hold our commands
 # So we can type `flask seed --help`
@@ -14,6 +14,7 @@ def seed():
     seed_users()
     seed_farms()
     seed_userWallets()
+    seed_farmWallets()
     # Add other seed functions here
 
 
@@ -23,4 +24,5 @@ def undo():
     undo_users()
     undo_farms()
     undo_userWallets()
+    undo_farmWallets()
     # Add other undo functions here

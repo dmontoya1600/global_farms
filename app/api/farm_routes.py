@@ -1,5 +1,7 @@
+from app.models.farm import Transaction
+import math
 from flask import Blueprint, jsonify, request, session, current_app
-from app.models import db, Farm, User, FarmWallet
+from app.models import db, Farm, User, FarmWallet, Transaction
 from app.forms import FarmForm
 import logging
 import boto3
@@ -49,17 +51,23 @@ def createFarm():
 
         db.session.add(farm)
         db.session.commit()
-        farmId = Farm.query.filter(Farm.name == form.data['name']).first().id
 
-        market_share = getAvailableShares(form.data['dilution'])
+        currentFarm = Farm.query.filter(Farm.name == form.data['name'], Farm.userId == form.data['userId']).first()
+        farmId = currentFarm.id
+
+        market_share = math.floor(getAvailableShares(form.data['dilution'], form.data['stake']))
 
         farmOwnerShares = form.data['dilution'] - market_share
 
-        i = 0
+        print('TESTING THE VALUES', form.data['dilution'], market_share, farmOwnerShares, form.data['price'])
+
         farmOwner = User.query.get(form.data['userId'])
-        while i < farmOwnerShares:
-            
-            i += 1
+
+        transaction = Transaction(usdAmount= (form.data['price'] * math.floor(farmOwnerShares)), shares=math.floor(farmOwnerShares))
+        transaction.farms = currentFarm
+        transaction.users = farmOwner
+
+
 
         wallet = FarmWallet(
             farmId = farmId,
@@ -67,6 +75,8 @@ def createFarm():
             shares = market_share
         )
 
+        print('THIS IS THE WALLET', wallet.to_dict())
+        db.session.add(transaction)
         db.session.add(wallet)
         db.session.commit()
 

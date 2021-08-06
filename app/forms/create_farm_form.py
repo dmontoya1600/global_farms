@@ -8,3 +8,6 @@ class FarmForm(FlaskForm):
     userId = IntegerField('userId')
     about = TextAreaField('about')
     averageYield = FloatField('averageYield')
+    stake = FloatField('stake')
+    dilution = IntegerField('dilution')
+    price = FloatField('price')

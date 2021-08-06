@@ -3,8 +3,6 @@ import React, {useState} from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useHistory } from 'react-router-dom';
 import LogoutButton from './auth/LogoutButton';
-import CreateFarm from './Farm/CreateFarm';
-import logo from './favicon.ico'
 import { formContext } from './HomePage/Context';
 
 
