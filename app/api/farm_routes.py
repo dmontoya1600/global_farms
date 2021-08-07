@@ -33,7 +33,11 @@ def farms():
 @farm_routes.route('/<int:id>')
 def farm(id):
     farm = Farm.query.get(id)
-    return farm.to_dict()
+    wallet = FarmWallet.query.filter(FarmWallet.farmId == farm.id).first()
+
+    newFarm = farm.to_dict()
+    newFarm['wallet'] = wallet.to_dict()
+    return newFarm
 
 @farm_routes.route('/', methods=['POST'])
 def createFarm():

@@ -56,7 +56,6 @@ if(!farm) {
     history.push('/')
 }
 
-console.log('FARM SUCKLS', farm)
   return (
     farm.id ===undefined ? <div>Farm does not exist</div> :
     <div className='farm__page'>

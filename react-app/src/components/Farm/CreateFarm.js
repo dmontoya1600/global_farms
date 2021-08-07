@@ -16,10 +16,6 @@ function CreateFarm() {
   let [price, setPrice] = useState(0.00)
   const history = useHistory();
 
-  useEffect(() => {
-
-  }, []);
-
     async function handleSubmit(e) {
         e.preventDefault()
         let form = {

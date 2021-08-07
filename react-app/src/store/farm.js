@@ -72,6 +72,37 @@ export const updateFarm = (form, image) => async (dispatch) => {
 
 }
 
+export const getAverage = (farmId) => async (dispatch) => {
+    const response = await fetch(`/api/transactions/${farmId}`);
+    const data = await response.json();
+    console.log('AVERAGE SHARE', data)
+    return data.market_price;
+}
+
+export const makeOrder = (form) => async (dispatch) => {
+    const formData = new FormData()
+    let response;
+
+    formData.append('orderType', form.orderType)
+    formData.append('shares', form.shares)
+    formData.append('farmId', form.farmId)
+    formData.append('userId', form.userId)
+
+    if(form.orderType === 'buy'){
+        response = await fetch(`/api/transactions/`, {
+            method: 'POST',
+            body: formData,
+        })
+
+    } else if (form.orderType === 'sell'){
+        return
+    }
+
+    const data = await response.json()
+
+    console.log('RESPONSE: ', data)
+}
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case SET_FARM:
