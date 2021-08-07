@@ -175,6 +175,7 @@ input[type=text], select, textarea {
     display: grid;
     grid-template-areas:
     ' share shareC '
+    ' order orderC '
     ' avg avgC '
     ' est estC '
     ' rev rev '
@@ -190,11 +191,14 @@ input[type=text], select, textarea {
 
   .shares{
       grid-area: share;
-      align-self: center;
   }
 
   #sharesC {
       grid-area: shareC;
+      padding: 5px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      align-self: center;
   }
 
   .avgPrice{
@@ -231,6 +235,10 @@ input[type=text], select, textarea {
     margin-top: 30px;
 }
 
+.rev:hover{
+    background-color: rgb(80, 107, 63);
+}
+
 .buy{
     grid-area: buy;
     font-size: 14px;
@@ -251,4 +259,17 @@ input[type=text], select, textarea {
 
 .add__to__list:hover{
     background-color: rgb(223, 251, 212);
+}
+
+.order{
+    grid-area: order;
+
+}
+
+.orderC{
+    grid-area: orderC;
+    padding: 5px;
+    align-self: center;
+    margin-top: 0px;
+    margin-bottom: 10px;
 }
