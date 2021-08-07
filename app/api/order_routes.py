@@ -34,6 +34,22 @@ def buyShare():
             newBalance = user_wallet.buyingPower - totalCost
 
             user_wallet.buyingPower = newBalance
+
+            if(Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()):
+                transaction = Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()
+                newAmount = transaction.usdAmount + totalCost
+                newShares = transaction.shares + shares
+                transaction.usdAmount = newAmount
+                transaction.shares = newShares
+            else:
+                transaction = Transaction(
+                    userId = userId,
+                    farmId = farmId,
+                    usdAmount = newBalance,
+                    shares = shares,
+                )
+                db.session.add(transaction)
+
             db.session.commit()
 
             updated_wallet = user_wallet.to_dict()
