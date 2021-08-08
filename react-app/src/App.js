@@ -7,7 +7,7 @@ import NavBar from './components/NavBar';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 import UsersList from './components/UsersList';
 import User from './components/User';
-import { authenticate, getSavedFarms, getWallet } from './store/session';
+import { authenticate, getSavedFarms, getWallet, getOwnedFarms } from './store/session';
 import Farm from './components/Farm'
 import HomePage from './components/HomePage'
 import CreateFarm from './components/Farm/CreateFarm';
@@ -16,6 +16,7 @@ import CreateFarm from './components/Farm/CreateFarm';
 function App() {
   const [loaded, setLoaded] = useState(false);
   const user = useSelector(state => state.session.user)
+  const wallet = useSelector(state => state.session.wallet)
   const dispatch = useDispatch();
   const err = useSelector(state=> state.session.error)
   let [pageActive, setPageActive] = useState(false)
@@ -42,6 +43,14 @@ function App() {
     })();
 
   }, [user?.id])
+
+  useEffect(() => {
+    (async () => {
+      if(wallet){
+        await dispatch(getOwnedFarms(user.id))
+      }
+    })();
+  }, [wallet])
 
   if (!loaded) {
     return null;

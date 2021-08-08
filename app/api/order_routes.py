@@ -103,3 +103,24 @@ def getMarketPrice(id):
     avg = sumDollars / totalShares
 
     return {'market_price': avg}
+
+@transaction_routes.route('/<int:id>/owned')
+def getAllOwnedFarms(id):
+    allTransactions = Transaction.query.filter(Transaction.userId == id).all()
+
+    owned_farms = []
+    total_value = 0
+    for transaction in allTransactions:
+        total_value += transaction.usdAmount
+
+    for transaction in allTransactions:
+        farm = Farm.query.get(transaction.farmId)
+
+        updated_transaction = transaction.to_dict()
+        updated_transaction['percentage_of_portfolio'] = transaction.usdAmount / total_value
+        updated_transaction['name'] = farm.name
+        updated_transaction['image_url'] = farm.image_url
+        
+        owned_farms.append(updated_transaction)
+
+    return {"total_value": total_value, "owned_farms": owned_farms}

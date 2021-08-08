@@ -9,6 +9,13 @@ class Transaction(db.Model):
     shares = db.Column(db.Integer)
     farms = db.relationship('Farm', back_populates='transactions')
     users = db.relationship('User', back_populates='transactions')
+    def to_dict(self):
+        return {
+            'userId': self.userId,
+            'farmId': self.farmId,
+            'usdAmount': self.usdAmount,
+            'shares': self.shares,
+        }
 
 saved_farms = db.Table(
     'saved_farms',
