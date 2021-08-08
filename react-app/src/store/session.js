@@ -7,6 +7,7 @@ const LOAD_FARMS = 'session/farms/LOAD_FARMS';
 const REMOVE_SAVE = 'session/farms/REMOVE_SAVE'
 const LOAD_WALLET  = 'session/wallet/LOAD_WALLET'
 const LOAD_ERROR = 'session/error/LOAD_ERROR'
+const LOAD_OWNED_FARMS = 'session/ownedFarms/LOAD_OWNED_FARMS'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -40,6 +41,11 @@ const loadWallet = (wallet) =>({
 export const loadError = (error) =>({
   type: LOAD_ERROR,
   payload: error,
+})
+
+export const loadOwnedFarms = (res) => ({
+  type: LOAD_OWNED_FARMS,
+  payload: res,
 })
 
 const initialState = { user: null };
@@ -180,6 +186,14 @@ export const getWallet = (userId) => async(dispatch) => {
   dispatch(loadWallet(data))
 }
 
+export const getOwnedFarms = (userId) => async(dispatch) => {
+  const response = await fetch(`/api/transactions/${userId}/owned`)
+
+  const data = await response.json()
+
+  dispatch(loadOwnedFarms(data))
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
@@ -210,6 +224,10 @@ export default function reducer(state = initialState, action) {
     case LOAD_ERROR:
       return {
         ...state, error: action.payload
+      }
+    case LOAD_OWNED_FARMS:
+      return {
+        ...state, ownedShares: action.payload.owned_farms, portfolio_value: action.payload.total_value
       }
     default:
       return state;
