@@ -35,6 +35,8 @@ def buyShare():
 
             user_wallet.buyingPower = newBalance
 
+            farm_wallet.buyingPower = totalCost + farm_wallet.buyingPower
+
             if(Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()):
                 transaction = Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()
                 newAmount = transaction.usdAmount + totalCost
@@ -45,7 +47,7 @@ def buyShare():
                 transaction = Transaction(
                     userId = userId,
                     farmId = farmId,
-                    usdAmount = newBalance,
+                    usdAmount = totalCost,
                     shares = shares,
                 )
                 db.session.add(transaction)
@@ -56,7 +58,34 @@ def buyShare():
             updated_wallet['buyingPower'] = newBalance
 
             return updated_wallet
-        # elif(order_type == 'sell'):
+        elif(order_type == 'sell'):
+            newBalance = user_wallet.buyingPower + totalCost
+
+            user_wallet.buyingPower = newBalance
+
+
+            print('THIS IS THE TOTAL COST ', totalCost, farm_wallet.to_dict())
+
+            if(totalCost > farm_wallet.buyingPower): return {'message': "Farm doesn't enough funds!"}
+
+            farm_wallet.buyingPower = farm_wallet.buyingPower - totalCost
+
+            if(Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()):
+                transaction = Transaction.query.filter(Transaction.userId == userId, Transaction.farmId == farmId).first()
+
+                newAmount = transaction.usdAmount - totalCost
+                newShares = transaction.shares - shares
+                if(newShares < 0): return {'message:', "You don't own enough shares"}
+
+                transaction.usdAmount = newAmount
+                transaction.shares = newShares
+            else: return {'message': "You don't own any of these shares"}
+            db.session.commit()
+
+            updated_wallet = user_wallet.to_dict()
+            updated_wallet['buyingPower'] = newBalance
+
+            return updated_wallet
 
 
     else: return {'message': 'form is invalid'}
