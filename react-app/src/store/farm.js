@@ -1,4 +1,12 @@
+import { loadError } from './session'
+
 export const SET_FARM = 'farm/SET_FARM'
+export const UPDATE_BUYPOWER = 'session/wallet/UPDATE_BUYPOWER'
+
+const updateBuyPower = (wallet) => ({
+    type: UPDATE_BUYPOWER,
+    payload: wallet,
+})
 
 const setFarm = (farm) => ({
     type: SET_FARM,
@@ -88,19 +96,19 @@ export const makeOrder = (form) => async (dispatch) => {
     formData.append('farmId', form.farmId)
     formData.append('userId', form.userId)
 
-    if(form.orderType === 'buy'){
-        response = await fetch(`/api/transactions/`, {
-            method: 'POST',
-            body: formData,
-        })
-
-    } else if (form.orderType === 'sell'){
-        return
-    }
+    response = await fetch(`/api/transactions/`, {
+        method: 'POST',
+        body: formData,
+    })
 
     const data = await response.json()
 
-    console.log('RESPONSE: ', data)
+    console.log('ORDER DATA: ', data)
+    if(data.message){
+        await dispatch(loadError(data))
+    }else{
+        await dispatch(updateBuyPower(data))
+    }
 }
 
 export default function reducer(state = {}, action) {

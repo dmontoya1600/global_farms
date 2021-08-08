@@ -64,4 +64,5 @@ class FarmWallet(db.Model):
             'id': self.id,
             'farmId': self.farmId,
             'shares': self.shares,
+            'buyingPower': self.buyingPower,
         }

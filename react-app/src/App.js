@@ -17,6 +17,14 @@ function App() {
   const [loaded, setLoaded] = useState(false);
   const user = useSelector(state => state.session.user)
   const dispatch = useDispatch();
+  const err = useSelector(state=> state.session.error)
+  let [pageActive, setPageActive] = useState(false)
+
+  useEffect(() =>{
+    if(err){
+      setPageActive(true)
+    }
+  }, [err])
 
   useEffect(() => {
     (async() => {
@@ -41,6 +49,15 @@ function App() {
 
   return (
     <BrowserRouter>
+      {err && pageActive?
+        <div id='error__page'>
+          <div className='error__oops'>Oops!</div>
+          <div className='error__message'>
+            Error: {err.message}
+          </div>
+          <i className='fas fa-times-circle error__close' onClick={() => setPageActive(false)}/>
+        </div> :
+        null}
       <Switch>
         <Route path='/login' exact={true}>
           <LoginForm />

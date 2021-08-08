@@ -1,11 +1,12 @@
-
+import { UPDATE_BUYPOWER } from "./farm";
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
 const ADD_FARM ='session/farms/ADD_FARM';
 const LOAD_FARMS = 'session/farms/LOAD_FARMS';
 const REMOVE_SAVE = 'session/farms/REMOVE_SAVE'
-const  LOAD_WALLET  = 'session/wallet/LOAD_WALLET'
+const LOAD_WALLET  = 'session/wallet/LOAD_WALLET'
+const LOAD_ERROR = 'session/error/LOAD_ERROR'
 
 const setUser = (user) => ({
   type: SET_USER,
@@ -35,6 +36,12 @@ const loadWallet = (wallet) =>({
   type: LOAD_WALLET,
   payload: wallet
 })
+
+export const loadError = (error) =>({
+  type: LOAD_ERROR,
+  payload: error,
+})
+
 const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
@@ -195,6 +202,14 @@ export default function reducer(state = initialState, action) {
     case LOAD_WALLET:
       return {
         ...state, wallet: action.payload
+      }
+    case UPDATE_BUYPOWER:
+      return {
+        ...state, wallet: action.payload
+      }
+    case LOAD_ERROR:
+      return {
+        ...state, error: action.payload
       }
     default:
       return state;
