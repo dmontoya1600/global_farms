@@ -13,12 +13,13 @@ import HomePage from './components/HomePage'
 import CreateFarm from './components/Farm/CreateFarm';
 import {AppContext} from './AppContext'
 import ProfilePage from './ProfilePage';
-
+import AboutMe from './AboutMe';
 
 function App() {
   const [loaded, setLoaded] = useState(false);
   const user = useSelector(state => state.session.user)
   const wallet = useSelector(state => state.session.wallet)
+  const farm = useSelector(state => state.farm)
   const dispatch = useDispatch();
   const err = useSelector(state=> state.session.error)
   let [activeProfile, setActiveProfile] = useState(false)
@@ -54,7 +55,7 @@ function App() {
         await dispatch(getOwnedFarms(user.id))
       }
     })();
-  }, [wallet])
+  }, [wallet, farm])
 
   if (!loaded) {
     return null;
@@ -63,7 +64,7 @@ function App() {
   return (
     <BrowserRouter>
     <AppContext.Provider value={{setActiveProfile}} >
-
+    <AboutMe />
 
         {err && pageActive?
           <div id='error__page'>
@@ -104,6 +105,7 @@ function App() {
           </Route>
           <div>PAGE NOT FOUND</div>
         </Switch>
+
     </AppContext.Provider >
 
     </BrowserRouter>
