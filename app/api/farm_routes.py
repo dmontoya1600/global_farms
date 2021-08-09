@@ -54,7 +54,6 @@ def updateImage(id):
                                             Params={'Bucket': 'global-farms-bucket',
                                                     'Key': file_data.filename})
         image_url = response
-        print(f'THIS IS THE RESPONSE {image_url} and the REAL RESPONSE {response}')
         farm.image_url = image_url
         db.session.commit()
         farm = Farm.query.get(id)
@@ -85,8 +84,6 @@ def createFarm():
 
         farmOwnerShares = form.data['dilution'] - market_share
 
-        print('TESTING THE VALUES', form.data['dilution'], market_share, farmOwnerShares, form.data['price'])
-
         farmOwner = User.query.get(form.data['userId'])
 
         transaction = Transaction(usdAmount= (form.data['price'] * math.floor(farmOwnerShares)), shares=math.floor(farmOwnerShares))
@@ -101,7 +98,6 @@ def createFarm():
             shares = market_share
         )
 
-        print('THIS IS THE WALLET', wallet.to_dict())
         db.session.add(transaction)
         db.session.add(wallet)
         db.session.commit()
@@ -118,7 +114,6 @@ def deleteFarm(id):
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         newFarm = farm.to_dict()
-        print('THIS IS THE NEW FARM', newFarm)
         if newFarm['userId'] == form.data['userId']:
             db.session.delete(farm)
             db.session.commit()

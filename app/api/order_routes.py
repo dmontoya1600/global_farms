@@ -18,7 +18,6 @@ def buyShare():
         farmId = form.data['farmId']
         userId = form.data['userId']
 
-        print('ORDER FORM DATA', form.data)
 
         farm = Farm.query.get(farmId)
 
@@ -62,9 +61,6 @@ def buyShare():
             newBalance = user_wallet.buyingPower + totalCost
 
             user_wallet.buyingPower = newBalance
-
-
-            print('THIS IS THE TOTAL COST ', totalCost, farm_wallet.to_dict())
 
             if(totalCost > farm_wallet.buyingPower): return {'message': "Farm doesn't enough funds!"}
 
@@ -120,7 +116,7 @@ def getAllOwnedFarms(id):
         updated_transaction['percentage_of_portfolio'] = transaction.usdAmount / total_value
         updated_transaction['name'] = farm.name
         updated_transaction['image_url'] = farm.image_url
-        
+
         owned_farms.append(updated_transaction)
 
     return {"total_value": total_value, "owned_farms": owned_farms}

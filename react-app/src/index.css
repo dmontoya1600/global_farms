@@ -48,9 +48,9 @@ body{
 
 .navbar__search__container{
     grid-area: search;
-    color: rgb(168, 168, 168);
+    color: rgb(60, 76, 27);
     height: 60%;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(60, 76, 27);
 }
 
 
