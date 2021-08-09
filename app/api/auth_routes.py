@@ -22,7 +22,6 @@ def createUserWallet(id):
         userId = id,
         buyingPower = 0.00
     )
-    print('WALLET WORKED', wallet)
     db.session.add(wallet)
     db.session.commit()
 
@@ -33,7 +32,6 @@ def authenticate():
     Authenticates a user.
     """
     if current_user.is_authenticated:
-        print('CURRENT USER: ',current_user.id )
 
         return current_user.to_dict()
     return {'errors': ['Unauthorized']}

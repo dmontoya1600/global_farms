@@ -83,7 +83,6 @@ export const updateUser = (form, user) => async (dispatch) => {
 
   const data = await response.json()
 
-  console.log('UPDATA USER RES', data)
   dispatch(setUser(data))
 }
 
@@ -184,7 +183,6 @@ export const removeSave = (farmId, userId) => async(dispatch) => {
 
   const data = await response.json()
 
-  console.log('DELETE RES', data)
 
   dispatch(deleteSave(farmId))
 

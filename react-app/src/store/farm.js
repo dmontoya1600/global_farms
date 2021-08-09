@@ -35,7 +35,6 @@ export const createFarm = (form, image) => async (dispatch) => {
     formData.append('dilution', form.dilution);
     formData.append('price', form.price);
 
-    console.log('THIS IT FELLAS', formData.data)
     const response = await fetch(`/api/farms/`, {
         method: "POST",
         body: formData,
@@ -54,13 +53,11 @@ export const deleteFarm = (farmId, userId) => async (dispatch) => {
         body: formData,
     })
     const data = await response.json()
-    console.log('THIS IS THE DELETE RES', data)
 
 }
 
 export const updateFarm = (form, image) => async (dispatch) => {
     const formData = new FormData()
-    console.log('THIS IS THE DISPATCH FORM', form)
     if(image) {
         formData.append("image", image)};
     // request will be named: farm__name, farm__yield, farm__location
@@ -83,7 +80,6 @@ export const updateFarm = (form, image) => async (dispatch) => {
 export const getAverage = (farmId) => async (dispatch) => {
     const response = await fetch(`/api/transactions/${farmId}`);
     const data = await response.json();
-    console.log('AVERAGE SHARE', data)
     return data.market_price;
 }
 
@@ -103,7 +99,6 @@ export const makeOrder = (form) => async (dispatch) => {
 
     const data = await response.json()
 
-    console.log('ORDER DATA: ', data)
     if(data.message){
         await dispatch(loadError(data))
     }else{

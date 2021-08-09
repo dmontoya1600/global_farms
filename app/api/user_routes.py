@@ -24,9 +24,7 @@ def user(id):
 @user_routes.route('/<int:id>', methods=['POST'])
 def updateUser(id):
     user = User.query.get(id)
-    print('ROUTE IS HIT')
     form = UserForm()
-    print(form.data)
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate():
         if(form.data['username']):

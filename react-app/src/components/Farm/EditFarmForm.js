@@ -27,7 +27,6 @@ function EditFarmForm({setEditFarm, editFarm}) {
             about: stateAbout,
             id: farm.id
         }
-        console.log('THIS IS THE FORM', form)
         let res = await dispatch(updateFarm(form))
         setEditFarm(false)
         // history.push(`/farms/${res.id}`)

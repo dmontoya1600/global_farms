@@ -12,12 +12,10 @@ function News() {
 
             let newsObj = await res.json()
             if(newsObj.status === 'ok'){
-                console.log('NEWS:', newsObj)
                 setArticles(newsObj.articles)
             }
         })();
     }, [])
-console.log(articles)
   return (
     <div className='news__component'>
         {newsUrl ? <Route exact path="/" render={() => (window.location = newsUrl)} />: null}
