@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, TextAreaField, FloatField
+from wtforms import StringField, IntegerField, TextAreaField, FloatField, FileField
 
 
 class FarmForm(FlaskForm):
@@ -11,3 +11,4 @@ class FarmForm(FlaskForm):
     stake = FloatField('stake')
     dilution = IntegerField('dilution')
     price = FloatField('price')
+    image = FileField('image')

@@ -111,6 +111,24 @@ export const makeOrder = (form) => async (dispatch) => {
     }
 }
 
+export const updateFarmImage = (image, farmId) => async(dispatch) => {
+    let formData = new FormData()
+
+    if(image){
+        formData.append('image', image)
+    }
+
+    const response = await fetch(`/api/farms/${farmId}`, {
+        method: 'PUT',
+        body: formData,
+    })
+
+    const data = await response.json()
+
+    dispatch(setFarm(data))
+
+}
+
 export default function reducer(state = {}, action) {
     switch (action.type) {
         case SET_FARM:

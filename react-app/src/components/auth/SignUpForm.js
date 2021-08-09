@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { signUp } from '../../store/session';
 import image from './tractor-chicken.png'
 import logo from './global_farms_logo.png'
@@ -15,6 +15,7 @@ const SignUpForm = () => {
   const [repeatPassword, setRepeatPassword] = useState('');
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const onSignUp = async (e) => {
     e.preventDefault();
@@ -49,7 +50,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <div className='login__grid'>
+    <span id='login__grid'>
       <img src={image} className='login__image' />
       <img src={logo} className='logo__image' />
 
@@ -103,8 +104,10 @@ const SignUpForm = () => {
               ))}
           </div>
         </form>
+        <div className='sign__up__link' onClick={() => history.push('/login')}>Already have an account? Sign in!</div>
+
       </div>
-    </div>
+    </span>
   );
 };
 

@@ -6,13 +6,19 @@
     ". main . side .";
 }
 
+.main__buying__power{
+    color: rgb(121, 168, 59);
+    text-align: center;
+    padding-top: 10px;
+}
+
 .main__content{
     grid-area: main;
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     border-style: solid;
     border-color: rgb(151, 151, 151);
-    border-width: 2px;
+    border-width: 1px;
     box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -24,7 +30,7 @@
     height: 400px;
     border-style: solid;
     border-color: rgb(151, 151, 151);
-    border-width: 2px;
+    border-width: 1px;
     box-shadow: 0 3px 3px 1px rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -36,8 +42,8 @@
     background-color: rgb(229, 229, 229);
 }
 
-i{
-    margin-left: 100px;
+.watchlist__tab > i{
+    margin-left: 135px;
     color: rgb(39, 69, 25);
 }
 
@@ -47,6 +53,10 @@ i{
 
 .watchlist__item{
     color: rgb(48, 83, 22);
+    padding-top: 5px;
+    font-weight: lighter;
+    font-size: 15px;
+    padding-left: 5px;
 }
 
 .watchlist__item:hover{
@@ -153,4 +163,57 @@ i{
     align-self: end;
     background-color: rgba(33, 80, 8, 0.457);
     border-radius: 15px;
+}
+
+.news__label{
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 30px;
+    border-bottom: 1px solid rgb(187, 187, 187);
+}
+
+.news__component{
+    display: grid;
+    /* grid-template-rows: repeat(auto-fill, px); */
+}
+
+.news__article{
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+    ' source . . '
+    ' title title newsImg '
+    ' desc desc desc ';
+    grid-template-rows: 30px 80px 50px;
+    border-bottom: 1px solid rgb(187, 187, 187);
+}
+
+
+.news__source{
+    grid-area: source;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 0px;
+}
+
+.news__image{
+    grid-area: newsImg;
+    width: 150px;
+    height: 75px;
+    border-radius: 10px;
+    justify-self: end;
+    margin-right: 0px;
+}
+
+.news__title{
+    grid-area: title;
+    font-size: 12px;
+}
+
+.news__desc{
+    grid-area: desc;
+    font-size: 11px;
+    color: rgb(94, 127, 50);
+    overflow: scroll;
 }

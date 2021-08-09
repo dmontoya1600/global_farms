@@ -10,6 +10,8 @@ function SlideShow() {
   const history = useHistory()
   let [currentSlideIndex, setCurrentSlideIndex] = useState(0)
   let [currentSlide, setCurrentSlide] = useState(ownedShares?.[currentSlideIndex])
+  let [newsUrl, setNewsUrl] = useState(null)
+
 
   useEffect(() => {
       if(ownedShares){

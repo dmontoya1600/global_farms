@@ -39,6 +39,28 @@ def farm(id):
     newFarm['wallet'] = wallet.to_dict()
     return newFarm
 
+@farm_routes.route('/<int:id>', methods=['PUT'])
+def updateImage(id):
+    s3 = boto3.client('s3')
+    farm = Farm.query.get(id)
+    if request.files:
+        file_data = request.files['image']
+        s3.upload_fileobj(file_data, 'global-farms-bucket', file_data.filename,
+                            ExtraArgs={
+                                'ACL': 'public-read',
+                                'ContentType': file_data.content_type
+                            })
+        response = s3.generate_presigned_url('get_object',
+                                            Params={'Bucket': 'global-farms-bucket',
+                                                    'Key': file_data.filename})
+        image_url = response
+        print(f'THIS IS THE RESPONSE {image_url} and the REAL RESPONSE {response}')
+        farm.image_url = image_url
+        db.session.commit()
+        farm = Farm.query.get(id)
+        return farm.to_dict()
+
+
 @farm_routes.route('/', methods=['POST'])
 def createFarm():
     form = FarmForm()

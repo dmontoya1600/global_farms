@@ -66,6 +66,28 @@ export const authenticate = () => async (dispatch) => {
   }
 }
 
+export const updateUser = (form, user) => async (dispatch) => {
+  const formData = new FormData()
+
+  formData.append('username', form.username)
+
+  formData.append('email', form.email)
+
+  formData.append('userId', user.id)
+
+
+  const response = await fetch(`/api/users/${form.id}`, {
+    method: 'POST',
+    body: formData,
+  })
+
+  const data = await response.json()
+
+  console.log('UPDATA USER RES', data)
+  dispatch(setUser(data))
+}
+
+
 export const login = (email, password) => async (dispatch) => {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
@@ -194,10 +216,12 @@ export const getOwnedFarms = (userId) => async(dispatch) => {
   dispatch(loadOwnedFarms(data))
 }
 
+
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
-      return { user: action.payload }
+      return { ...state, user: action.payload }
     case REMOVE_USER:
       return { user: null }
     case ADD_FARM:

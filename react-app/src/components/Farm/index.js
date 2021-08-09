@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
-import { loadFarm, updateFarm } from '../../store/farm';
+import { loadFarm, updateFarm, updateFarmImage } from '../../store/farm';
 import { saveFarm, removeSave } from '../../store/session';
 import './Farm.css'
 import EditFarmForm from './EditFarmForm';
@@ -52,17 +52,28 @@ async function removeFromList(){
     await dispatch(removeSave(farm.id, user.id))
 }
 
-if(!farm) {
-    history.push('/')
+if(!user) {
+    history.push('/login')
+}
+
+async function uploadFile(e){
+    await dispatch(updateFarmImage(e.target.files[0], farm.id))
+}
+
+function handleImageClick(){
+    if(user.id === farm.userId){
+        document.getElementById('file').click()
+    }
 }
 
   return (
     farm.id ===undefined ? <div>Farm does not exist</div> :
     <div className='farm__page'>
+        <input id='file' type='file' hidden onChange={uploadFile}/>
         {editFarm ? <EditFarmForm setEditFarm={setEditFarm} editFarm={editFarm} /> : null}
         <div className='farm__content'>
             <div value={farm.name} className='farm__name'>{farm.name}</div>
-            <div className='overlay__image'></div>
+            <div onClick={(e) => handleImageClick(e)} className='overlay__image'></div>
             <img className='farm__image' src={farm.image_url} />
 
             <div value={farm.averageYield} className='farm__yield' onClick={(e) => setFieldValue([farm.averageYield, 'farm__yield'])}>Average yield: {farm.averageYield * 100}%</div>
