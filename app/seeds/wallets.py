@@ -4,7 +4,7 @@ from app.models import db, UserWallet, FarmWallet, Transaction
 # Adds a demo user, you can add other users here if you want
 def seed_userWallets():
     demo_wallet = UserWallet(
-        userId=1, buyingPower=0.00)
+        userId=1, buyingPower=2500)
     marnie_wallet = UserWallet(
          userId=2, buyingPower=0.00)
     bobbie_wallet = UserWallet(
