@@ -39,7 +39,7 @@ def farm(id):
     newFarm['wallet'] = wallet.to_dict()
     return newFarm
 
-@farm_routes.route('/<int:id>', methods=['PUT'])
+@farm_routes.route('/<int:id>', methods=['PATCH'])
 def updateImage(id):
     s3 = boto3.client('s3')
     farm = Farm.query.get(id)
@@ -188,17 +188,6 @@ def updateFarm(id):
 
         db.session.commit()
         return farm.to_dict()
-    if request.files:
-        file_data = request.files['image']
-        s3.upload_fileobj(file_data, 'global-farms-bucket', file_data.filename,
-        ExtraArgs={
-            'ACL': 'public-read',
-            'ContentType': file_data.content_type
-        })
-        response = s3.create_presigned_post('global-farms-bucket', file_data.filename)
-        image_url = response["url"] + response["fields"]["key"]
-        farm.image_url = image_url
-        db.session.commit()
 
     db.session.commit()
     return farm.to_dict()

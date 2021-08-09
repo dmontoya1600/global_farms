@@ -41,6 +41,8 @@ export const createFarm = (form, image) => async (dispatch) => {
     });
 
     const data = response.json()
+    dispatch(setFarm(data))
+
     return data
 }
 
@@ -114,7 +116,7 @@ export const updateFarmImage = (image, farmId) => async(dispatch) => {
     }
 
     const response = await fetch(`/api/farms/${farmId}`, {
-        method: 'PUT',
+        method: 'PATCH',
         body: formData,
     })
 
