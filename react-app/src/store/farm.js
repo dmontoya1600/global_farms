@@ -119,10 +119,13 @@ export const updateFarmImage = (image, farmId) => async(dispatch) => {
         method: 'PATCH',
         body: formData,
     })
-
     const data = await response.json()
 
-    dispatch(setFarm(data))
+    if(data.message){
+        dispatch(loadError(data))
+    }else{
+        dispatch(setFarm(data))
+    }
 
 }
 

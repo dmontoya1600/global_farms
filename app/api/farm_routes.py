@@ -45,19 +45,22 @@ def updateImage(id):
     farm = Farm.query.get(id)
     if request.files:
         file_data = request.files['image']
-        s3.upload_fileobj(file_data, 'global-farms-bucket', file_data.filename,
-                            ExtraArgs={
-                                'ACL': 'public-read',
-                                'ContentType': file_data.content_type
-                            })
-        response = s3.generate_presigned_url('get_object',
-                                            Params={'Bucket': 'global-farms-bucket',
-                                                    'Key': file_data.filename})
-        image_url = response
-        farm.image_url = image_url
-        db.session.commit()
-        farm = Farm.query.get(id)
-        return farm.to_dict()
+        if('image' in file_data.content_type):
+
+            s3.upload_fileobj(file_data, 'global-farms-bucket', file_data.filename,
+                                ExtraArgs={
+                                    'ACL': 'public-read',
+                                    'ContentType': file_data.content_type
+                                })
+            response = s3.generate_presigned_url('get_object',
+                                                Params={'Bucket': 'global-farms-bucket',
+                                                        'Key': file_data.filename})
+            image_url = response
+            farm.image_url = image_url
+            db.session.commit()
+            farm = Farm.query.get(id)
+            return farm.to_dict()
+        else: return {'message':'File needs to be an image!'}
 
 
 @farm_routes.route('/', methods=['POST'])
