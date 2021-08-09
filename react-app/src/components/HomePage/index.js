@@ -24,6 +24,8 @@ function HomePage() {
       history.push('/login')
   }
 
+
+
   return (
     <div className='home__page'>
         <div className='main__content'>
@@ -36,6 +38,7 @@ function HomePage() {
             <div className='list__title'>Lists</div>
             <WatchList />
         </div>
+        
     </div>
 
   );
