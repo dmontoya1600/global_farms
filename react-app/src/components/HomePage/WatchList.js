@@ -33,7 +33,7 @@ function WatchList() {
   return (
     <div className='watchlist__component'>
         <div className='watchlist__tab' onClick={() => setActiveList(!activeList)}>
-            WATCHLIST
+            Watchlist
             {!activeList ?
                 <i className='fas fa-angle-down' />
             :   <i className='fas fa-angle-up' />}

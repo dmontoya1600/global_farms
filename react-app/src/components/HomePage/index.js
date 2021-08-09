@@ -7,6 +7,7 @@ import { formContext } from './Context';
 import CreateFarm from '../Farm/CreateFarm';
 import WatchList from './WatchList';
 import SlideShow from './SlideShow';
+import News from './News';
 
 function HomePage() {
   const farm = useSelector(state => state.farm);
@@ -33,12 +34,13 @@ function HomePage() {
             {ownedShares ? <SlideShow /> : <div>You don't own any shares yet!</div>}
             </div>
             <div className='main__buying__power'>Buying Power Available: ${wallet?.buyingPower}</div>
+            <div className='news__label'>News</div>
+            <News />
         </div>
         <div className='side__content'>
             <div className='list__title'>Lists</div>
             <WatchList />
         </div>
-        
     </div>
 
   );

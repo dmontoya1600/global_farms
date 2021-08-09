@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { login } from '../../store/session';
 import image from './tractor-chicken.png'
 import logo from './global_farms_logo.png'
@@ -13,6 +13,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
+  const history = useHistory()
 
   const onLogin = async (e) => {
     e.preventDefault();
@@ -34,11 +35,16 @@ const LoginForm = () => {
     return <Redirect to='/' />;
   }
 
+  async function handleDemo () {
+    await dispatch(login('demo@aa.io','password'))
+  }
+
   return (
-    <div className='login__grid'>
+    <span id='login__grid'>
       <img src={image} className='login__image' />
       <img src={logo} className='logo__image' />
       <div className='right__side'>
+        <div className='demo__button' onClick={() => handleDemo()}>Demo</div>
         <form className='login__form' onSubmit={onLogin}>
           <div>
             <label htmlFor='email'>Email</label>
@@ -70,8 +76,9 @@ const LoginForm = () => {
               </div>
           </div>
         </form>
+        <div className='sign__up__link' onClick={() => history.push('/sign-up')}>Don't have an account? Create one!</div>
       </div>
-    </div>
+    </span>
   );
 };
 

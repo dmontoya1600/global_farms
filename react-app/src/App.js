@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginForm from './components/auth/LoginForm';
@@ -11,6 +11,8 @@ import { authenticate, getSavedFarms, getWallet, getOwnedFarms } from './store/s
 import Farm from './components/Farm'
 import HomePage from './components/HomePage'
 import CreateFarm from './components/Farm/CreateFarm';
+import {AppContext} from './AppContext'
+import ProfilePage from './ProfilePage';
 
 
 function App() {
@@ -19,7 +21,9 @@ function App() {
   const wallet = useSelector(state => state.session.wallet)
   const dispatch = useDispatch();
   const err = useSelector(state=> state.session.error)
+  let [activeProfile, setActiveProfile] = useState(false)
   let [pageActive, setPageActive] = useState(false)
+
 
   useEffect(() =>{
     if(err){
@@ -58,42 +62,50 @@ function App() {
 
   return (
     <BrowserRouter>
-      {err && pageActive?
-        <div id='error__page'>
-          <div className='error__oops'>Oops!</div>
-          <div className='error__message'>
-            Error: {err.message}
-          </div>
-          <i className='fas fa-times-circle error__close' onClick={() => setPageActive(false)}/>
-        </div> :
-        null}
-      <Switch>
-        <Route path='/login' exact={true}>
-          <LoginForm />
-        </Route>
-        <Route path='/sign-up' exact={true}>
-          <SignUpForm />
-        </Route>
-        <ProtectedRoute path='/users' exact={true} >
-          <UsersList/>
-        </ProtectedRoute>
-        <ProtectedRoute path='/users/:userId' exact={true} >
-          <User />
-        </ProtectedRoute>
-        <Route path='/farms/:farmId' exact={true} >
-          <NavBar />
-          <Farm />
-        </Route>
-        <Route path='/' exact={true} >
-          <NavBar />
-          <HomePage />
-        </Route>
-        <Route path='/create-farm' >
-          <NavBar />
-          <CreateFarm />
-        </Route>
-        <div>PAGE NOT FOUND</div>
-      </Switch>
+    <AppContext.Provider value={{setActiveProfile}} >
+
+
+        {err && pageActive?
+          <div id='error__page'>
+            <div className='error__oops'>Oops!</div>
+            <div className='error__message'>
+              Error: {err.message}
+            </div>
+            <i className='fas fa-times-circle error__close' onClick={() => setPageActive(false)}/>
+          </div> :
+          null}
+          {activeProfile ?
+            <ProfilePage />
+          : null}
+        <Switch>
+          <Route path='/login' exact={true}>
+            <LoginForm />
+          </Route>
+          <Route path='/sign-up' exact={true}>
+            <SignUpForm />
+          </Route>
+          <ProtectedRoute path='/users' exact={true} >
+            <UsersList/>
+          </ProtectedRoute>
+          <ProtectedRoute path='/users/:userId' exact={true} >
+            <User />
+          </ProtectedRoute>
+          <Route path='/farms/:farmId' exact={true} >
+            <NavBar />
+            <Farm />
+          </Route>
+          <Route path='/' exact={true} >
+            <NavBar />
+            <HomePage />
+          </Route>
+          <Route path='/create-farm' >
+            <NavBar />
+            <CreateFarm />
+          </Route>
+          <div>PAGE NOT FOUND</div>
+        </Switch>
+    </AppContext.Provider >
+
     </BrowserRouter>
   );
 }
