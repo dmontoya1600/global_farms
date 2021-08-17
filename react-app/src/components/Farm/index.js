@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import env from "react-dotenv";
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 import { loadFarm, updateFarm, updateFarmImage } from '../../store/farm';
@@ -6,8 +7,13 @@ import { saveFarm, removeSave } from '../../store/session';
 import './Farm.css'
 import EditFarmForm from './EditFarmForm';
 import OrderForm from './OrderForm';
+import News from '../HomePage/News';
+import dotenv from  'dotenv'
+
+
 
 function Farm() {
+  let newsKey = process.env.REACT_APP_SUB_KEY
   const user = useSelector(state => state.session.user)
   const farms = useSelector(state => state.session.farms)
   const farm = useSelector(state => state.farm)
@@ -81,7 +87,7 @@ function handleImageClick(){
             <div className='farm__about__label'>About</div>
             {farm.about ? <div className='farm__about'>{farm.about}</div>
             : <div className='farm__no__about'>Farm has no biography yet.</div>}
-
+            <News newsKey={newsKey} />
         </div>
         <div className='farm__order'>
             <OrderForm />

@@ -1,4 +1,6 @@
 import { UPDATE_BUYPOWER } from "./farm";
+require('dotenv').config()
+
 // constants
 const SET_USER = 'session/SET_USER';
 const REMOVE_USER = 'session/REMOVE_USER';
