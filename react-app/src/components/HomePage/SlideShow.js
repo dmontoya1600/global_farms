@@ -38,16 +38,18 @@ function SlideShow() {
 
 
   return (
-    <div className='slide_show_component'>
-        <i className='fas fa-arrow-circle-left slide__arrow left__arrow' onClick={() => handleLeftArrow()}/>
-        <i className='fas fa-arrow-circle-right slide__arrow right__arrow' onClick={() => handleRightArrow()}/>
-        <img src={currentSlide?.image_url} className='slide__image'/>
-        <div className='slide__overlay'/>
-        <div className='slide__percentage'>{(currentSlide?.percentage_of_portfolio * 100).toFixed(2)}%</div>
-        <div className='slide__val'>${currentSlide.usdAmount}</div>
-        <div className='slide__name'>{currentSlide?.name}</div>
-        <div className='slide__portfolio'>Portfolio Value: ${portfolioValue}</div>
-    </div>
-  );
+        !currentSlide ? null:
+            <div className='slide_show_component'>
+                <i className='fas fa-arrow-circle-left slide__arrow left__arrow' onClick={() => handleLeftArrow()}/>
+                <i className='fas fa-arrow-circle-right slide__arrow right__arrow' onClick={() => handleRightArrow()}/>
+                <img src={currentSlide?.image_url} className='slide__image'/>
+                <div className='slide__overlay'/>
+                <div className='slide__percentage'>{(currentSlide?.percentage_of_portfolio * 100).toFixed(2)}%</div>
+                <div className='slide__val'>${currentSlide?.usdAmount}</div>
+                <div className='slide__name'>{currentSlide?.name}</div>
+                <div className='slide__portfolio'>Portfolio Value: ${portfolioValue}</div>
+            </div>
+
+  )
 }
 export default SlideShow;

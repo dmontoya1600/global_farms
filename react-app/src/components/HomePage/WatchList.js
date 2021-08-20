@@ -7,10 +7,16 @@ function WatchList() {
   const farms = useSelector(state => state.session.farms);
   const dispatch = useDispatch();
   const [activeList, setActiveList] = useState(true)
+  const [farmsList, setFarmsActiveList] = useState(true)
   const history = useHistory()
+  const [allFarms, setAllFarms] = useState(null)
 
   useEffect(() => {
-
+        (async() => {
+          const res = await fetch('/api/farms');
+          const data = await res.json()
+          setAllFarms(data.farms)
+        })();
   }, []);
 
   function watchlistContent(){
@@ -29,6 +35,21 @@ function WatchList() {
         )
     }
   }
+  function allFarmsContent() {
+      if(allFarms){
+          return (
+              <div className='watchlist__items'>
+                 {allFarms.map(farm => (
+                  <div onClick={() => history.push(`/farms/${farm.id}`)}className='watchlist__item' key={farm.id}>
+                          {farm.name}
+                      </div>
+                  ))}
+              </div>
+          );
+      }
+  }
+
+console.log('THIS IS ALL FARMS', allFarms)
 
   return (
     <div className='watchlist__component'>
@@ -40,6 +61,16 @@ function WatchList() {
         </div>
         {activeList ?
             watchlistContent()
+        : null}
+
+        <div className='farms__tab' onClick={() => setFarmsActiveList(!farmsList)}>
+            All Farms
+                {!farmsList ?
+                    <i className='fas fa-angle-down' />
+                :   <i className='fas fa-angle-up' /> }
+        </div>
+        {farmsList ?
+            allFarmsContent()
         : null}
     </div>
 

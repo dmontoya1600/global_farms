@@ -51,6 +51,20 @@
     color: rgb(103, 161, 76);
 }
 
+.farms__tab:hover{
+    background-color: rgb(229, 229, 229);
+}
+
+
+.farms__tab > i{
+    margin-left: 135px;
+    color: rgb(39, 69, 25);
+}
+
+.farms__tab:hover i{
+    color: rgb(103, 161, 76);
+}
+
 .watchlist__item{
     color: rgb(48, 83, 22);
     padding-top: 5px;
